@@ -1,9 +1,6 @@
 <template>
   <div>
     <h1>Welcome to the Homepage!</h1>
-    <p>{{ message }}</p>
-    <button @click="incrementCounter">Increment Counter</button>
-    <p>Counter: {{ counter }}</p>
   </div>
 </template>
 
