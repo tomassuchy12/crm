@@ -16,7 +16,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@components/*": ["components/*"],
-      "@pages/*": ["pages/*"]
+      "@pages/*": ["pages/*"],
+      "@store/*": ["store/*"]
     },
     "jsx": "preserve",
 
