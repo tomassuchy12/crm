@@ -3,7 +3,7 @@ import User from './interfaces/UserTypes';
 
 export const useUserStore = defineStore('users', {
   state: () => ({
-    user: {} as User
+    users: [] as User[]
   }),
 
   actions: {
@@ -11,12 +11,18 @@ export const useUserStore = defineStore('users', {
       console.log('get')
     },
     async addUser(user: User) {
-      console.log('add', user)
+      const userAlreadyExist = this.users.findIndex((item: User) => item.email === user.email)
+
+      if (userAlreadyExist === -1) {
+        this.users.push(user)
+      } else {
+        console.error('User with same e-mail already exists!')
+      }
     },
-    async editUser(id: string) {
+    async editUser(id: number) {
       console.log('edit', id)
     },
-    async deleteUser(id: string) {
+    async deleteUser(id: number) {
       console.log('delete', id)
     },
   },

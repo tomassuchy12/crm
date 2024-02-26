@@ -54,11 +54,11 @@ export default {
 }
 
 .modal {
-  @apply flex justify-center align-middle h-full w-full fixed top-0 left-0 bg-gray-300;
+  @apply flex justify-center items-center h-full w-full fixed top-0 left-0;
 
 
   .modal-inner {
-    @apply relative max-w-2xl w-4/5 bg-white py-16 px-4;
+    @apply relative max-w-2xl w-4/5 bg-white py-16 px-4 shadow-2xl;
 
     .close {
       @apply absolute top-4 right-4 text-lg cursor-pointer hover:text-red-500;

@@ -1,36 +1,20 @@
 <template>
-  <div>
-    <h1>Welcome to the Homepage!</h1>
+  <div class="flex flex-col justify-center items-center">
+    <h1 class="text-3xl">Welcome to the Homepage!</h1>
+    <h3 class="text-2xl mt-4">This project has been created only for code review purpose.</h3>
+    <div class="mt-4">
+      <span class="text-xl">
+        You can find all needed logic on <a href="/users" class="text-green-500">users</a> page. Enjoy!
+      </span>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref } from 'vue';
 
 export default {
   name: 'Homepage',
-  setup() {
-    // Define reactive state using ref
-    const counter = ref(0);
-
-    // Define a reactive message
-    const message = ref('Hello, Vue!');
-
-    // Define a method to increment the counter
-    const incrementCounter = () => {
-      counter.value++;
-    };
-
-    // Return the reactive state and methods
-    return {
-      counter,
-      message,
-      incrementCounter
-    };
-  }
 };
 </script>
 
-<style>
-/* Styles for Homepage.vue */
-</style>
+<style></style>

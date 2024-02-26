@@ -7,128 +7,95 @@
       Add user
     </button>
   </div>
+  <table
+    v-if="users?.length > 0"
+    class="mt-4 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+  >
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          Name
+        </th>
+        <th scope="col" class="px-6 py-3">
+          E-mail
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Action
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        v-for="(user, index) in users"
+        :key="index"
+        scope="row" class="font-medium text-gray-900 whitespace-nowrap border-b-2"
+      >
+        <td class="p-4 border-x-2">
+          {{ user.name }}
+        </td>
+        <td class="p-4 border-e-2">
+          {{ user.email }}
+        </td>
+        <td class="p-4 border-e-2">
+          <div class="flex items-center">
+            <button 
+              class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 me-2 rounded"
+              @click="editUser(index)"
+            >
+              Edit
+            </button>
+            <button 
+              class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              @click="deleteUser(index)"
+            >
+              Delete
+            </button>
+          </div>
+        </td>
+    </tr>
+    </tbody>
+  </table>
   <Modal
     :modalActive="modalActive"
     @close="toggleModal"
   >
     <div class="modal-content">
-      <div class="w-full max-w-xs">
-        <form class="px-8 pt-6 pb-8 mb-4">
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-             Name
-            </label>
-            <input
-              v-model="formData.name"
-              id="name"
-              type="text"
-              placeholder="Username"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            >
-          </div>
-          <div class="mb-6">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-              E-mail
-            </label>
-            <input
-              v-model="formData.email"
-              id="email"
-              type="email"
-              placeholder="john.doe@yopmail.com"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              :class="{'border-red-500': invalidEmail }"
-            >
-          </div>
-          <div class="mb-6">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-              Password
-            </label>
-            <input
-              v-model="formData.password"
-              id="password"
-              type="password"
-              placeholder="******************"
-              class="shadow appearance-none borde rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              :class="{'border-red-500': invalidPassword }"
-            >
-          </div>
-          <div class="mb-6">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="passwordAgain">
-              Verify password
-            </label>
-            <input
-              v-model="formData.passwordAgain"
-              id="passwordAgain"
-              type="password"
-              placeholder="******************"
-              class="shadow appearance-none borderrounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              :class="{'border-red-500': invalidPassword }"
-            >
-          </div>
-          <div class="flex items-center justify-between">
-            <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
-              @click="validateForm"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
-      </div>
+      <AddUserForm />
     </div>
   </Modal>
 </template>
 
 
 <script lang="ts">
-// import { useUserStore } from '@store/users';
-// const userStore = useUserStore();
-
-import Modal from "@components/Modal.vue";
 import { ref } from "vue";
+import { useUserStore } from '@store/users';
+import AddUserForm from "@components/AddUserForm.vue";
+import Modal from "@components/Modal.vue";
+
+const userStore = useUserStore();
 export default {
-  name: "Home",
+  name: "Users",
   components: {
+    AddUserForm,
     Modal,
   },
   setup() {
     const modalActive = ref(false);
-    const invalidEmail = ref(false);
-    const invalidPassword = ref(false);
-    const formData = ref({
-      name: '',
-      email: '',
-      password: '',
-      passwordAgain: ''
-    })
+    const users = userStore.users
 
     const toggleModal = () => {
       modalActive.value = !modalActive.value;
     };
 
-    const validateForm = () => {
-      invalidEmail.value = !isEmailValid(formData.value.email)
-      invalidPassword.value = !isPasswordValid(formData.value.password, formData.value.passwordAgain)
-      console.log(invalidPassword.value)
-    }
-
-    const isEmailValid = (value: string) => {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(value);
+    const editUser = (id: number) => {
+      userStore.editUser(id)
     };
 
-    const isPasswordValid = (password: string, passwordAgain: string) => {
-      console.log(password, passwordAgain, password.length < 5, password !== passwordAgain)
-      if (password.length < 5) {
-        return false;
-      }
-      if (password !== passwordAgain) {
-        return false;
-      }
+    const deleteUser = (id: number) => {
+      userStore.deleteUser(id)
     };
 
-    return { modalActive, formData, invalidEmail, invalidPassword, toggleModal, validateForm, isEmailValid, isPasswordValid };
+    return { users, modalActive, toggleModal, editUser, deleteUser };
   },
 }
 </script>

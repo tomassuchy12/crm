@@ -13,7 +13,7 @@
     <div class="border-r-2 p-4">
       <ul>
         <RouterLink to="/users">
-          <li>
+          <li class="text-xl hover:text-green-500 hover:decoration-green-500 hover:underline">
             Users
           </li>
         </RouterLink>
@@ -24,5 +24,4 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
